@@ -1,7 +1,17 @@
+import os
+from dotenv import load_dotenv, find_dotenv
+
+if not find_dotenv():
+    exit("Переменные окружения не загружены, так как отсутствует файл .env")
+else:
+    load_dotenv()
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
 DB_PATH = "database.db"
-BOT_TOKEN = "6417795240:AAEFWX1nOuuH318kpVJIOetp0r1z7hfH3L8"
 
 DEFAULT_COMMANDS = (
+    ("help", "Какие команды есть в боте"),
     ("low", "Самая низкая стоимость"),
     ("high", "Самая высокая стоимость"),
     ("custom", "Определенная стоимость"),
