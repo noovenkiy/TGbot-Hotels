@@ -7,7 +7,7 @@ else:
     load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-
+RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 DB_PATH = "database.db"
 
 DEFAULT_COMMANDS = (

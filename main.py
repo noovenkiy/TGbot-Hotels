@@ -1,19 +1,7 @@
-import telebot
-from telebot.types import Message
-from config import BOT_TOKEN
+from loader import bot
+import handlers  # noqa
+from utils.set_bot_commands import set_default_commands
 
-bot = telebot.TeleBot(BOT_TOKEN)
-
-@bot.message_handler(commands=['start'])
-def start(message: Message) -> None:
-    bot.send_message(message.chat.id, 'Приветствую вас!\nЯ буду повторять все сообщения за вами.')
-
-@bot.message_handler()
-def reply(message: Message) -> None:
-    bot.send_message(message.chat.id, message.text)
-
-
-if __name__ == '__main__':
-    bot.polling()
-
-
+if __name__ == "__main__":
+    set_default_commands(bot)
+    bot.infinity_polling()
