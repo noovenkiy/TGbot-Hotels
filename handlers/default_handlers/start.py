@@ -46,7 +46,7 @@ def date(message: Message) -> None:
     else:
         bot.send_message(message.chat.id, "Ошибка. Формат даты должен быть xx.yy.zzzz")
 
-@bot.message_handler(state=OrderImformation.date)
+@bot.message_handler(state=OrderImformation.res_count)
 def res_count(message: Message) -> None:
     if not message.text.isalpha():
         with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
