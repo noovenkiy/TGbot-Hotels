@@ -1,5 +1,5 @@
 from loader import bot
-from states.cur_states import OrderImformation
+from states.OrderImformation import OrderImformation
 from telebot.types import Message
 
 @bot.message_handler(commands=['high'])
