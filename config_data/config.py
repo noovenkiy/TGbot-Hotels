@@ -16,3 +16,5 @@ DEFAULT_COMMANDS = (
     ("history", "История запросов"),
     ("new_travel", "Выбрать город/даты")
 )
+
+CUR_RES = 10
