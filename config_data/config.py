@@ -8,12 +8,11 @@ else:
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 RAPID_API_KEY = os.getenv("RAPID_API_KEY")
-DB_PATH = "database.db"
-
 DEFAULT_COMMANDS = (
-    ("help", "Какие команды есть в боте"),
-    ("low", "Самая низкая стоимость"),
-    ("high", "Самая высокая стоимость"),
-    ("custom", "Определенная стоимость"),
-    ("history", "История запросов")
+    ("help", "Помощь"),
+    ("low", "Сначала дешевле"),
+    ("high", "Сначала дороже"),
+    ("custom", "Цена от/до"),
+    ("history", "История запросов"),
+    ("new_travel", "Выбрать город/даты")
 )

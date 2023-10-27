@@ -1,5 +1,5 @@
 from loader import bot
-from states.OrderImformation import OrderImformation
+from states.user_states import OrderImformation
 from telebot.types import Message
 
 @bot.message_handler(commands=['custom'])
