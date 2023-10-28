@@ -2,7 +2,7 @@ import os
 import requests
 import json
 import re
-from typing import Union, Optional, Literal, List, Dict, Final, Generator
+from typing import Optional, Literal, Dict
 from config_data.config import RAPID_API_KEY
 
 def request_to_api_hotel(querystring: dict, mode: Literal['des', 'hotel', 'foto'] = 'hotel',
