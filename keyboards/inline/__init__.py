@@ -2,6 +2,32 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import calendar
 from datetime import date, timedelta
 
+
+def main_menu_st1_keyboard() -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardMarkup(row_width=2)
+    btn_1 = InlineKeyboardButton("Выбрать город", callback_data="/city")
+    btn_2 = InlineKeyboardButton("Выбрать даты", callback_data="/date")
+    btn_3 = InlineKeyboardButton("История поиска", callback_data="/history")
+    btn_4 = InlineKeyboardButton("Далее", callback_data="next")
+    keyboard.add(btn_1, btn_2, btn_3, btn_4)
+
+    return keyboard
+
+
+def main_menu_st2_keyboard() -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardMarkup(row_width=2)
+    btn_1 = InlineKeyboardButton("1", callback_data="1")
+    btn_2 = InlineKeyboardButton("2", callback_data="2")
+    btn_3 = InlineKeyboardButton("3", callback_data="3")
+    btn_4 = InlineKeyboardButton("4", callback_data="4")
+    btn_5 = InlineKeyboardButton("5", callback_data="5")
+    btn_6 = InlineKeyboardButton("Назад", callback_data="back")
+
+    keyboard.add(btn_1, btn_2, btn_3, btn_4, btn_5, btn_6)
+
+    return keyboard
+
+
 def calendar_keyboard(year: int, month: int) -> InlineKeyboardMarkup:
     EMTPY_FIELD = 'empty'
     format_date = '%Y-%m-%d'
@@ -38,4 +64,5 @@ def history_keyboard(req) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup(row_width=2)
     button1 = InlineKeyboardButton('Повторить поиск', callback_data=f'set_from_req:{req}')
     keyboard.add(button1)
+
     return keyboard
