@@ -15,4 +15,4 @@ def start(message: Message) -> None:
     bot.delete_state(user_id, chat_id)
     bot.set_state(user_id, UserState.menu, chat_id)
 
-    main_menu_st1(message)
+    main_menu_st1(message.chat.id, message.from_user.id)

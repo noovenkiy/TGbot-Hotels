@@ -9,12 +9,14 @@ else:
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 DEFAULT_COMMANDS = (
+    ("start", "Запустить бота"),
     ("help", "Помощь"),
     ("history", "История запросов"),
-    ("new_travel", "Выбрать город/даты")
+    ("city", "Выбрать город"),
+    ("date", "Выбрать даты")
 )
 
-NUMBER_OF_FOTO = 7  # количество выводимых фото по умолчанию
+NUMBER_OF_FOTO = 5  # количество выводимых фото по умолчанию
 DES_TO_FILE = True  # запись запроса уточнения локации в файл
 HOTELS_TO_FILE = False  # запись запроса отелей в файл
 FOTO_TO_FILE = True  # запись запросов фото в файл

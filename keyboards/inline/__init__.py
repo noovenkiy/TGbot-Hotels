@@ -14,16 +14,16 @@ def main_menu_st1_keyboard() -> InlineKeyboardMarkup:
     return keyboard
 
 
-def main_menu_st2_keyboard() -> InlineKeyboardMarkup:
-    keyboard = InlineKeyboardMarkup(row_width=2)
-    btn_1 = InlineKeyboardButton("1", callback_data="1")
-    btn_2 = InlineKeyboardButton("2", callback_data="2")
-    btn_3 = InlineKeyboardButton("3", callback_data="3")
-    btn_4 = InlineKeyboardButton("4", callback_data="4")
-    btn_5 = InlineKeyboardButton("5", callback_data="5")
-    btn_6 = InlineKeyboardButton("Назад", callback_data="back")
-
-    keyboard.add(btn_1, btn_2, btn_3, btn_4, btn_5, btn_6)
+def main_menu_st2_keyboard(number_hotels: int, foto: bool) -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    btn_1 = InlineKeyboardButton("Назад", callback_data="back")
+    btn_2 = InlineKeyboardButton(f"Фото: {'Да' if foto else 'Нет'}", callback_data="need_foto")
+    btn_3 = InlineKeyboardButton(f"Количество отелей: {number_hotels}", callback_data="number_hotels")
+    btn_4 = InlineKeyboardButton("Сначала дешевле", callback_data="lowprice")
+    btn_5 = InlineKeyboardButton("Ближе к центру", callback_data="bestdeal")
+    btn_6 = InlineKeyboardButton("Сначала дороже", callback_data="highprice")
+    keyboard.add(btn_1, btn_2, btn_3)
+    keyboard.row(btn_4, btn_5, btn_6)
 
     return keyboard
 

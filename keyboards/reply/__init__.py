@@ -6,3 +6,4 @@ def city_choice_keyboard(cities: dict) -> ReplyKeyboardMarkup:
     keyboard.add(*[KeyboardButton(city) for city in cities])
     return keyboard
 
+
