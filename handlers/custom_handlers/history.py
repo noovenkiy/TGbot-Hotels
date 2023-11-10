@@ -1,13 +1,13 @@
 from loader import bot
 from telebot.types import Message, CallbackQuery
 from datetime import datetime, date, timedelta
-from database.command import get_history_from_db, get_req_from_db, get_hotel_by_req
+from database.command import get_history_from_db, get_req_from_db
 from handlers.custom_handlers.menu import main_menu_st1
-from .base import send_hotels
 from keyboards.inline import history_keyboard
+from states.user_states import UserState
 
 
-@bot.message_handler(commands=['/history'])
+@bot.message_handler(commands=['history'])
 def history_com(message: Message) -> None:
     history(message.from_user.id)
 

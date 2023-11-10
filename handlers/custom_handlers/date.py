@@ -1,9 +1,16 @@
 from loader import bot
 from handlers.custom_handlers.menu import main_menu_st1
-from telebot.types import CallbackQuery
+from telebot.types import CallbackQuery, Message
 from states.user_states import UserState
 from keyboards.inline import calendar_keyboard
 from datetime import datetime, date
+
+
+@bot.message_handler(commands=['date'])
+def get_date_com(message: Message) -> None:
+    bot.set_state(message.from_user.id, UserState.check_in, message.chat.id)
+    bot.send_message(message.chat.id, 'Дата заезда',
+                     reply_markup=calendar_keyboard(date.today().year, date.today().month))
 
 
 @bot.callback_query_handler(func=lambda call: call.data == '/date')
