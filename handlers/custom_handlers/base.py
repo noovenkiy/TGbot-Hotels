@@ -2,7 +2,8 @@ import urllib3.exceptions
 from loader import bot
 from telebot.types import InputMediaPhoto, CallbackQuery
 import telebot.apihelper
-from utils.api_hotels import get_hotels, get_photo
+from utils.api_hotels.get_hotel import get_hotels
+from utils.api_hotels.get_photo import get_photo
 from handlers.custom_handlers.menu import main_menu_st1
 from database.command import save_request_to_db
 
@@ -12,26 +13,27 @@ from database.command import save_request_to_db
 def low_price(call: CallbackQuery) -> None:
     handler_command(call.message.chat.id, call.from_user.id, 'lowprice')
 
+
 @bot.callback_query_handler(func=lambda call: call.data == 'bestdeal')
-def low_price(call: CallbackQuery) -> None:
+def bestdeal(call: CallbackQuery) -> None:
     handler_command(call.message.chat.id, call.from_user.id, 'bestdeal')
 
 @bot.callback_query_handler(func=lambda call: call.data == 'highprice')
-def low_price(call: CallbackQuery) -> None:
+def high_price(call: CallbackQuery) -> None:
     handler_command(call.message.chat.id, call.from_user.id, 'highprice')
 
 
 def handler_command(chat_id: int, user_id: int, command: str = 'lowprice') -> None:
     bot.send_message(user_id, 'Получаем информацию...')
 
-    sort, sort_to_db = 'PRICE', 'P'
+    sort, sort_to_db = 'PRICE_LOW_TO_HIGH', 'PLTH'
     if command == 'highprice':
-        sort, sort_to_db = 'PRICE_HIGHEST_FIRST', 'PHF'
+        sort, sort_to_db = 'PRICE_HIGH_TO_LOW', 'PHTL'
     elif command == 'bestdeal':
         sort, sort_to_db = 'DISTANCE_FROM_LANDMARK', 'DFL'
 
     with bot.retrieve_data(user_id, chat_id) as data:
-        hotels = get_hotels(data, sortOrder=sort)
+        hotels = get_hotels(data, sort)
         send_hotels(hotels, user_id, data['foto'])
     save_request_to_db(hotels, user_id, sort_to_db, **data)
     main_menu_st1(chat_id, user_id)
@@ -39,10 +41,11 @@ def handler_command(chat_id: int, user_id: int, command: str = 'lowprice') -> No
 
 def send_hotels(hotels: list, user_id: int, number_foto: int = False) -> None:
     for hotel in hotels:
-        text = f"<b>{hotel['name']}</b>\n" \
-               f"<i>{hotel['address']}</i>\n" \
-               f"{hotel['price']}\n" \
-               f"{hotel['url']}"
+        text = f"<b>Название: {hotel['name']}</b>\n" \
+               f"Расстояние до центра: {hotel['distance']} км\n" \
+               f"Цена за ночь: {hotel['price']}\n" \
+               f"Оценки: {hotel['reviews_score']} ({hotel['reviews_total']})\n"
+
         if number_foto:
             foto = get_photo(hotel['id'])
             for _ in range(3):

@@ -29,7 +29,7 @@ def back_to_st1(call: CallbackQuery) -> None:
                 amount_days = (data['check_out'] - data['check_in']).days
             else:
                 amount_days = 0
-            data['number_hotels'] = 0
+            data['number_hotels'] = 5
             data['foto'] = False
 
         bot.send_message(chat_id, f"Выбранный город:\t{city}\n"
@@ -47,7 +47,7 @@ def main_menu_st1(chat_id: int, user_id: int) -> None:
             amount_days = (data['check_out'] - data['check_in']).days
         else:
             amount_days = 0
-        data['number_hotels'] = 0
+        data['number_hotels'] = 5
         data['foto'] = False
 
     bot.send_message(chat_id, f"Выбранный город:\t{city}\n"
@@ -67,9 +67,7 @@ def error_date_or_city(call: CallbackQuery) -> None:
             check_out = data['check_out']
             main_menu_st2(call)
         except:
-            bot.delete_message(call.message.chat.id, call.message.id)
-            bot.send_message(chat_id, "*Ошибка. Не выбран город/даты*", parse_mode="Markdown")
-            main_menu_st1(chat_id, user_id)
+            bot.answer_callback_query(call.id, 'Не выбран город или даты', show_alert=True)
 
 def main_menu_st2(call: CallbackQuery) -> None:
     chat_id = call.message.chat.id
@@ -83,7 +81,7 @@ def main_menu_st2(call: CallbackQuery) -> None:
             amount_days = (data['check_out'] - data['check_in']).days
         else:
             amount_days = 0
-        number_hotels = data.get('number_hotels', 0)
+        number_hotels = data.get('number_hotels', 5)
         foto = data.get('foto', False)
 
 

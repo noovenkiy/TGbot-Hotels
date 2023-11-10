@@ -1,7 +1,7 @@
 from telebot.types import Message, CallbackQuery
 from states.user_states import UserState
 from keyboards.reply import city_choice_keyboard
-from utils.api_hotels import get_destination
+from utils.api_hotels.get_city import get_destination
 from handlers.custom_handlers.menu import main_menu_st1
 from loader import bot
 

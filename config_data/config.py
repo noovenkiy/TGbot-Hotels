@@ -18,6 +18,4 @@ DEFAULT_COMMANDS = (
 
 NUMBER_OF_FOTO = 5  # количество выводимых фото по умолчанию
 DES_TO_FILE = True  # запись запроса уточнения локации в файл
-HOTELS_TO_FILE = False  # запись запроса отелей в файл
-FOTO_TO_FILE = True  # запись запросов фото в файл
-RESPONSE_FROM_FILE = True  # попытка считать ответ из файла, если подходящий есть в базе (только для FOTO и DES)
+RESPONSE_FROM_FILE = True  # попытка считать ответ из файла, если подходящий есть в базе
