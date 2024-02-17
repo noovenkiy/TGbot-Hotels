@@ -1,14 +1,15 @@
 import sqlite3
 import os
 
-file = os.path.join('database', 'database.db')
-if __name__ == '__main__':
-    file = 'database.db'
+file = os.path.join("database", "database.db")
+if __name__ == "__main__":
+    file = "database.db"
 
 history = sqlite3.connect(file, check_same_thread=False)
 
 with history:
-    history.executescript("""
+    history.executescript(
+        """
     CREATE TABLE IF NOT EXISTS request(
         req_id INTEGER PRIMARY KEY AUTOINCREMENT , -- уникальный номер запроса
         user INTEGER NOT NULL,                     -- ID пользователя
@@ -33,4 +34,5 @@ with history:
         longitude REAL,
         FOREIGN KEY (req_id) REFERENCES request (req_id) ON DELETE CASCADE
        );
-    """)
+    """
+    )

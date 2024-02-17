@@ -9,61 +9,76 @@ from database.command import save_request_to_db
 
 # Здесь определены базовые команды бота.
 
-@bot.callback_query_handler(func=lambda call: call.data == 'lowprice')
+
+@bot.callback_query_handler(func=lambda call: call.data == "lowprice")
 def low_price(call: CallbackQuery) -> None:
-    handler_command(call.message.chat.id, call.from_user.id, 'lowprice')
+    handler_command(call.message.chat.id, call.from_user.id, "lowprice")
 
 
-@bot.callback_query_handler(func=lambda call: call.data == 'bestdeal')
+@bot.callback_query_handler(func=lambda call: call.data == "bestdeal")
 def bestdeal(call: CallbackQuery) -> None:
-    handler_command(call.message.chat.id, call.from_user.id, 'bestdeal')
+    handler_command(call.message.chat.id, call.from_user.id, "bestdeal")
 
-@bot.callback_query_handler(func=lambda call: call.data == 'highprice')
+
+@bot.callback_query_handler(func=lambda call: call.data == "highprice")
 def high_price(call: CallbackQuery) -> None:
-    handler_command(call.message.chat.id, call.from_user.id, 'highprice')
+    handler_command(call.message.chat.id, call.from_user.id, "highprice")
 
 
-def handler_command(chat_id: int, user_id: int, command: str = 'lowprice') -> None:
-    bot.send_message(user_id, 'Получаем информацию...')
+def handler_command(chat_id: int, user_id: int, command: str = "lowprice") -> None:
+    bot.send_message(user_id, "Получаем информацию...")
 
-    sort, sort_to_db = 'PRICE_LOW_TO_HIGH', 'PLTH'
-    if command == 'highprice':
-        sort, sort_to_db = 'PRICE_HIGH_TO_LOW', 'PHTL'
-    elif command == 'bestdeal':
-        sort, sort_to_db = 'DISTANCE_FROM_LANDMARK', 'DFL'
+    sort, sort_to_db = "PRICE_LOW_TO_HIGH", "PLTH"
+    if command == "highprice":
+        sort, sort_to_db = "PRICE_HIGH_TO_LOW", "PHTL"
+    elif command == "bestdeal":
+        sort, sort_to_db = "DISTANCE_FROM_LANDMARK", "DFL"
 
     with bot.retrieve_data(user_id, chat_id) as data:
         hotels = get_hotels(data, sort)
-        send_hotels(hotels, user_id, data['foto'])
+        send_hotels(hotels, user_id, data["foto"])
     save_request_to_db(hotels, user_id, sort_to_db, **data)
     main_menu_st1(chat_id, user_id)
 
 
 def send_hotels(hotels: list, user_id: int, number_foto: int = False) -> None:
     for hotel in hotels:
-        text = f"<b>Название: {hotel['name']}</b>\n" \
-               f"Расстояние до центра: {hotel['distance']} км\n" \
-               f"Цена за ночь: {hotel['price']}\n" \
-               f"Оценки: {hotel['reviews_score']} ({hotel['reviews_total']})\n"
+        text = (
+            f"<b>Название: {hotel['name']}</b>\n"
+            f"Расстояние до центра: {hotel['distance']} км\n"
+            f"Цена за ночь: {hotel['price']}\n"
+            f"Оценки: {hotel['reviews_score']} ({hotel['reviews_total']})\n"
+        )
 
         if number_foto:
-            foto = get_photo(hotel['id'])
+            foto = get_photo(hotel["id"])
             for _ in range(3):
-                foto_list = [InputMediaPhoto(next(foto)) for _ in range(number_foto - 1)]
-                foto_list.append(InputMediaPhoto(next(foto), caption=text, parse_mode='HTML'))
+                foto_list = [
+                    InputMediaPhoto(next(foto)) for _ in range(number_foto - 1)
+                ]
+                foto_list.append(
+                    InputMediaPhoto(next(foto), caption=text, parse_mode="HTML")
+                )
                 try:
                     bot.send_media_group(user_id, foto_list)
                     break
-                except [telebot.apihelper.ApiTelegramException, urllib3.exceptions.ReadTimeoutError] as msg:
-                    print('Ошибка отправки медиагруппы. ID отеля:', hotel['id'], msg)
+                except [
+                    telebot.apihelper.ApiTelegramException,
+                    urllib3.exceptions.ReadTimeoutError,
+                ] as msg:
+                    print("Ошибка отправки медиагруппы. ID отеля:", hotel["id"], msg)
             else:
-                text = 'Фото получить не удалось.\n\n' + text
-                bot.send_message(user_id, text,
-                                 parse_mode='HTML',
-                                 disable_web_page_preview=True,
-                                 )
+                text = "Фото получить не удалось.\n\n" + text
+                bot.send_message(
+                    user_id,
+                    text,
+                    parse_mode="HTML",
+                    disable_web_page_preview=True,
+                )
         else:
-            bot.send_message(user_id, text,
-                             parse_mode='HTML',
-                             disable_web_page_preview=True,
-                             )
+            bot.send_message(
+                user_id,
+                text,
+                parse_mode="HTML",
+                disable_web_page_preview=True,
+            )
